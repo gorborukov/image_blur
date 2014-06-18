@@ -36,3 +36,8 @@ void MainWindow::on_openButton_pressed()
 
 
 
+
+void MainWindow::on_blurButton_pressed()
+{
+
+}
