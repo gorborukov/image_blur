@@ -21,6 +21,7 @@ void MainWindow::DrawImage(QString imagePath) {
     scene->addPixmap(image);
     scene->setSceneRect(image.rect());
     ui->graphicsView->setScene(scene);
+    ui->graphicsView->fitInView(scene->itemsBoundingRect() ,Qt::KeepAspectRatio);
 }
 
 void MainWindow::on_openButton_pressed()
@@ -34,10 +35,13 @@ void MainWindow::on_openButton_pressed()
     DrawImage(imagePath);
 }
 
-
-
+void MainWindow::BlurImage() {
+    QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(scene);
+    blur->setBlurRadius(20.0);
+    ui->graphicsView->setGraphicsEffect(blur);
+}
 
 void MainWindow::on_blurButton_pressed()
 {
-
+    BlurImage();
 }

@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QFileDialog>
+#include <QImage>
+#include <QPixmap>
+#include <QGraphicsEffect>
 
 namespace Ui {
 class MainWindow;
@@ -18,9 +21,11 @@ public:
     ~MainWindow();
 
     void DrawImage(QString imagePath);
+    void BlurImage();
 
 private slots:
     void on_openButton_pressed();
+    void on_blurButton_pressed();
 
 private:
     Ui::MainWindow *ui;
