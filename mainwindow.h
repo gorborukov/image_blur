@@ -22,6 +22,10 @@ public:
 
     void DrawImage(QString imagePath);
     void BlurImage();
+    void CVFilter();
+    void MaskedBlurFilter(QImage *origin);
+    void SetResultImage(QImage *destinationImage);
+
 
 private slots:
     void on_openButton_pressed();
@@ -31,6 +35,8 @@ private:
     Ui::MainWindow *ui;
     QPixmap image;
     QImage *imageObject;
+    QImage *origin;
+    QImage *destinationImage;
     QGraphicsScene *scene;
 };
 
