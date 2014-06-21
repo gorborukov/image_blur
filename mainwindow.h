@@ -23,8 +23,9 @@ public:
     void DrawImage(QString imagePath);
     void BlurImage();
     void CVFilter();
-    void MaskedBlurFilter(QImage *origin);
-    void SetResultImage(QImage *destinationImage);
+    QImage MaskedBlurFilter(QImage *origin);
+    void SetMask();
+    void SetResultImage(QImage *maskedImage);
 
 
 private slots:
@@ -37,6 +38,7 @@ private:
     QImage *imageObject;
     QImage *origin;
     QImage *destinationImage;
+    QImage *maskedImage;
     QGraphicsScene *scene;
 };
 

@@ -1,12 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <opencv.hpp>
-#include <highgui.h>
-
-using namespace std;
-using namespace cv;
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -47,8 +41,8 @@ void MainWindow::CVFilter(){
 
 }
 
-void MainWindow::MaskedBlurFilter(QImage *origin){
-    QImage * newImage = new QImage(*origin);
+QImage MainWindow::MaskedBlurFilter(QImage *origin){
+    QImage *newImage = new QImage(*origin);
 
     int kernel [5][5]= {{0,0,1,0,0},
                         {0,1,3,1,0},
@@ -83,10 +77,28 @@ void MainWindow::MaskedBlurFilter(QImage *origin){
             destinationImage = newImage;
         }
     }
+    SetMask();
 }
 
-void MainWindow::SetResultImage(QImage *destinationImage) {
-    image = QPixmap::fromImage(*destinationImage);
+void MainWindow::SetMask() {
+    QImage *mask = new QImage(":mask.png");
+    QPainter painter;
+
+    painter.begin(mask);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceAtop);
+    painter.drawImage(0, 0, *destinationImage);
+    painter.end();
+
+    painter.begin(origin);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    painter.drawImage(0, 0, *mask);
+    painter.end();
+
+    maskedImage = origin;
+}
+
+void MainWindow::SetResultImage(QImage *maskedImage) {
+    image = QPixmap::fromImage(*maskedImage);
     scene = new QGraphicsScene(this);
     scene->addPixmap(image);
     scene->setSceneRect(image.rect());
@@ -97,6 +109,5 @@ void MainWindow::SetResultImage(QImage *destinationImage) {
 void MainWindow::on_blurButton_pressed()
 {
     MaskedBlurFilter(origin);
-    SetResultImage(destinationImage);
-
+    SetResultImage(maskedImage);
 }
